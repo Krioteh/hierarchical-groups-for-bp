@@ -221,6 +221,17 @@ function hgbp_get_directory_as_tree_setting() {
  *
  * @since 1.0.0
  *
+ * @return bool Which members of a group are allowed to associate subgroups with it.
+ */
+function hgbp_get_allow_top_level_group_creation_setting() {
+	return (bool) bp_get_option( 'hgbp-allow-top-level-group-creation', true );
+}
+
+/**
+ * Fetch and parse the saved global settings.
+ *
+ * @since 1.0.0
+ *
  * @param int $group_id Which group ID's meta to fetch.
  *
  * @return string Which members of a group are allowed to associate subgroups with it.

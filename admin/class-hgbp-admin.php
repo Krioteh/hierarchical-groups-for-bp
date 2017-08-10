@@ -145,6 +145,23 @@ class HGBP_Admin extends HGBP_Public {
 			'hgbp_use_tree_directory_template'
 		);
 
+		// Setting for allowing all users to create top-level groups.
+		add_settings_section(
+			'hgbp_allow_top_level_group_creation',
+			__( 'Allow top-level group creation for all users.', 'hierarchical-groups-for-bp' ),
+			array( $this, 'top_level_group_creation_section_callback' ),
+			$this->plugin_slug
+		);
+
+		register_setting( $this->plugin_slug, 'hgbp-allow-top-level-group-creation', 'absint' );
+		add_settings_field(
+			'hgbp-allow-top-level-group-creation',
+			__( 'Choose who can create top-level groups.', 'hierarchical-groups-for-bp' ),
+			array( $this, 'render_allow_top_level_group_creation' ),
+			$this->plugin_slug,
+			'hgbp_allow_top_level_group_creation'
+		);
+
 		// Setting for including activity in related groups.
 		add_settings_section(
 			'hgbp_activity_syndication',
@@ -297,6 +314,29 @@ class HGBP_Admin extends HGBP_Public {
 		<?php
 	}
 
+
+	/**
+	 * Provide a section description for the global settings screen.
+	 *
+	 * @since    1.0.0
+	 */
+	public function top_level_group_creation_section_callback() {}
+
+	/**
+	 * Set up the fields for the global settings screen.
+	 *
+	 * @since    1.0.0
+	 */
+	public function render_allow_top_level_group_creation() {
+		$setting = hgbp_get_allow_top_level_group_creation_setting();
+		?>
+		<p><label for="hgbp-allow-top-level-group-creation"><input type="checkbox" id="hgbp-allow-top-level-group-creation" name="hgbp-allow-top-level-group-creation" value="1"<?php checked( $setting ); ?>> <?php _e( 'Enable top-level group creation for all users.', 'hierarchical-groups-for-bp' ); ?></label></p>
+		<p class="description"><?php _e(  'Administrators can always create top-level groups, regardless of this setting. Note that this setting only takes effect if the BuddyPress setting "Enable group creation for all users" is enabled.', 'hierarchical-groups-for-bp' ) ?></p>
+		<?php
+	}
+
+
+
 	/**
 	 * Provide a section description for the global settings screen.
 	 *
@@ -427,6 +467,7 @@ class HGBP_Admin extends HGBP_Public {
 			'hgbp-directory-child-group-section-label'  => 'sanitize_text_field',
 			'hgbp-directory-child-group-view-all-link'  => 'sanitize_text_field',
 			'hgbp-group-tab-label'                      => 'sanitize_text_field',
+			'hgbp-allow-top-level-group-creation'       => 'absint',
 		);
 		foreach ( $fields as $key => $sanitize_callback ) {
 			$value = isset( $_POST[ $key ] ) ? $_POST[ $key ] : '';
