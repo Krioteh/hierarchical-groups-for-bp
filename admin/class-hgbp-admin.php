@@ -414,7 +414,7 @@ class HGBP_Admin extends HGBP_Public {
 		}
 
 		// Check that user has the proper capability.
-		if ( ! current_user_can( 'bp_moderate' ) ) {
+		if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 			return;
 		}
 

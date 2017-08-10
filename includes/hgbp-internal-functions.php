@@ -81,7 +81,7 @@ function hgbp_include_group_by_context( $group = false, $user_id = false, $conte
 		return $include;
 	}
 
-	if ( current_user_can( 'bp_moderate' ) ) {
+	if ( bp_current_user_can( 'bp_moderate' ) ) {
 		$include = true;
 	}
 
